@@ -1,0 +1,51 @@
+{% extends "post/base.html" %}
+{% load blog_tags %}
+{% load bootstrap5 %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <div class="card"  style="background-color: #F0CAD0; margin: 50px 300px; ">
+        <div class="card-body">
+        <div class="card-title">
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.publish }}</p>
+        </div>
+        <p class="card-text" style="text-align: justify; font-size: larger;">
+            
+            {{ post.body|linebreaks }}
+        </p>
+        </div>
+    </div>
+    {% with comments.count as total_comments %}
+    <h2>
+        {{ total_comments }} comment{{ total_comments|pluralize }}
+    </h2>
+    {% endwith %}
+    {% for comment in comments %}
+    <div class="card" style="width: 350px; margin: 10px; padding: 10px; background-color: #F0CAD0;">
+        <p class="info">
+            {{ comment.name }} - {{ comment.created }}
+        </p>
+        <div class="card" style="width: 310px; margin: 10px; padding: 10px; background-color: #E3E0DF;">
+            {{ comment.body|markdown }}
+        </div>
+        
+    </div>
+    {% empty %}
+    <p>No comments yet.</p>
+    {% endfor %}
+    {% if new_comment %}
+    <h2>Your comment is now posted.</h2>
+    {% else %}
+    <h2>Add a new comment.</h2>
+    <form action="." method="post" style="width: 300px; align-items: center; padding: 20px;">
+        {{ comment_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Add comment"></p>
+    </form>
+    {% endif %}
+{% endblock %}

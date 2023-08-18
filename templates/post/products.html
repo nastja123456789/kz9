@@ -1,0 +1,125 @@
+{% extends "post/base.html" %}
+{% load bootstrap5 %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Продукты{% endif %}
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<h1>Products</h1>
+<div id="main" class="product-list" style="display: flex;">
+  {% for product in products %}
+    <div class="card my-4" style="width:400px; margin: 20px;">
+      <div class="card-header" style="background-color: #C79975;">
+        <h5 class="card-title">
+          <a href="{{ product.get_absolute_url }}"> {{ product.name }}</a> 
+          ({{ product.price }} ₽)
+        </h5>
+      </div>
+      <div class="card-body" style="background-color: #F0CAD0;">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" 
+          class="card-img-top" alt="...">
+        <h6 class="card-subtitle mb-2 text-muted">{{ recipe.author }}</h6>
+        <p class="card-text">{{ recipe.description }}</p>
+        <h6 class="card-subtitle mb-2 text-muted">
+          {{ recipe.updated_at|date:"F d, Y" }}
+        </h6>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+
+    <div style="width: 400px;">
+      <span style="margin: auto;">{% include "pagination.html" with page=products %}</span>
+    </div>
+
+    <br>
+
+    
+    <a href="{% url "polls:attitude" %}">Give us a feedback!</a> <br>
+    <a class="btn" style="background-color: #E3ABAE;" href="{% url "polls:search_recipes" %}" role="button">Look for recipes</a>
+
+    <br>
+    <br>
+     {% if request.user.is_authenticated %}
+    <div class="container" style="background-color: #F0CAD0;">
+      <form id="filterForm">
+        <label for="year">Choose a year:</label>
+        <select name="year" id="year"></select>
+        <input type="submit" value="Load" name="_load">
+      </form>
+      <div class="row">
+        <div class="col-6">
+          <canvas id="salesChart"></canvas>
+        </div>
+      </div>
+      <script>
+  $(document).ready(function() {
+    $.ajax({
+      url: "/chart/filter-options/",
+      type: "GET",
+      dataType: "json",
+      success: (jsonResponse) => {
+        jsonResponse.options.forEach(option => {
+          $("#year").append(new Option(option, option));
+        });
+        loadAllCharts($("#year").children().first().val());
+      },
+      error: () => console.log("Failed to fetch chart filter options!")
+    });
+  });
+
+$("#filterForm").on("submit", (event) => {
+  event.preventDefault();
+
+  const year = $("#year").val();
+  loadAllCharts(year)
+});
+
+function loadChart(chart, endpoint) {
+  $.ajax({
+    url: endpoint,
+    type: "GET",
+    dataType: "json",
+    success: (jsonResponse) => {
+      const title = jsonResponse.title;
+      const labels = jsonResponse.data.labels;
+      const datasets = jsonResponse.data.datasets;
+
+      chart.data.datasets = [];
+      chart.data.labels = [];
+
+      chart.options.title.text = title;
+      chart.options.title.display = true;
+      chart.data.labels = labels;
+      datasets.forEach(dataset => {
+        chart.data.datasets.push(dataset);
+      });
+      chart.update();
+    },
+    error: () => console.log("Failed to fetch chart data from " + endpoint + "!")
+  });
+}
+
+function loadAllCharts(year) {
+  loadChart(salesChart, `/chart/sales/${year}/`);
+}
+</script>
+<script>
+  let salesCtx = document.getElementById("salesChart").getContext("2d");
+  let salesChart = new Chart(salesCtx, {
+    type: "bar",
+    options: {
+      responsive: true,
+    }
+  });
+</script>
+    </div>
+    {% endif %}
+
+{% endblock %}

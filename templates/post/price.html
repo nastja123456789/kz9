@@ -1,0 +1,44 @@
+{% extends "post/base.html" %}
+{% load bootstrap5 %}
+{% load static %}
+{% block title %}
+<h1>Recipes:</h1>
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<h3>Recipes</h3>
+<div style="display: flex;">
+{% for recipe in recipes %}
+<div class="card my-4" style="flex-basis:400px; 
+flex-grow: 0;
+flex-shrink: 0; margin: 20px;">
+  <div class="card-header" style="background-color: #C79975;">
+    <h5 class="card-title">{{ recipe.title }}</h5>
+      <br>
+    <h6 class="card-subtitle mb-2 text-muted">{{ recipe.author }}</h6>
+  </div>
+  <div class="card-body" style="background-color: #F0CAD0; text-align: justify;">
+   <img src="{{ recipe.img_url }}" class="card-img-top" alt="...">
+    <p class="card-text">{{ recipe.description }}</p>
+    <h6 class="card-subtitle mb-2 text-muted">
+      {{ recipe.updated_at|date:"F d, Y" }}
+    </h6>
+  </div>
+</div>
+{% endfor %}
+</div>  
+
+    <div class="card" style="padding: 10px; margin: 20px 20px; align-items: center; background-color: #F0CAD0; width: 350px;">
+    <h2>Add a new recipe</h2>
+    <form action="{% url 'polls:recipe' %}" method="post">
+        {{ recipe_create.as_p }}
+        {% csrf_token %}
+        <p><input class="btn" type="submit" value="Add" style="background-color: #C79975;"></p>
+        <a class="btn" style="background-color: #E3ABAE;" href="{% url "polls:search_recipes" %}" role="button">Look for recipes</a>
+    </form>
+    </div>
+{% endblock content %}

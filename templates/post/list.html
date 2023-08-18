@@ -1,0 +1,197 @@
+{% extends "post/base.html" %}
+{% load bootstrap5 %}
+{% load blog_tags %}
+{% block title %}Мой блог{% endblock %}
+{% block content %}
+
+<style>
+    .blog-text {
+        grid-column: 1 ;
+        grid-row: 1;
+    }    
+    .blog-image {
+        grid-column: 2 ;
+        grid-row: 1;
+        width: 500px;
+        margin: 20px;
+    }
+    .posts {
+        display: flex;
+    }    
+
+    @media screen and (max-width:1000px){
+    .blog-text {
+        grid-column: 1 ;
+        grid-row: 1;
+    }    
+    .blog-image {
+        grid-column: 1 ;
+        grid-row: 2;
+        width: 600px;
+        margin: auto;
+    }  
+    .posts {
+        display: contents;
+    }   
+}
+
+@media screen and (max-width:800px){
+    .blog-text {
+        grid-column: 1 ;
+        grid-row: 1;
+    }    
+    .blog-image {
+        grid-column: 1 ;
+        grid-row: 2;
+        width: 400px;
+        margin: auto;
+    }  
+    .carouselll {
+        display: none;
+    }
+}
+
+@media screen and (max-width:600px){
+    .blog-text {
+        grid-column: 1 ;
+        grid-row: 1;
+    }    
+    .blog-image {
+        grid-column: 1 ;
+        grid-row: 2;
+        width: 200px;
+        margin: auto;
+    }    
+}
+
+@media screen and (max-width:400px){
+    .blog-text {
+        grid-column: 1 ;
+        grid-row: 1;
+    }    
+    .blog-image {
+        grid-column: 1 ;
+        grid-row: 2;
+        width: 200px;
+        margin: auto;
+    }    
+}
+    </style>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<div id="sidebar">
+    
+
+    <div class="card"  style="background-color: #F0CAD0; margin: 50px;">
+        <div style="display: grid;" class="card-body">
+            <div class="blog-text">
+        <div class="card-title">
+            <h1>Our blog
+                <img src="https://png.pngtree.com/png-vector/20220728/ourmid/pngtree-cupcake-logo-silhouette-line-with-heart-bakery-cute-cup-cake-cherry-png-image_6090270.png" alt="" style="width: 60px;"></h1>
+            <p>Welcome to our blog! We post a lot of fun and intersting information!</p>
+        </div>
+          <p class="card-text" style="text-align: justify;">
+            
+        What makes us stand out amongst others is our creativity and commitment to quality. 
+        Our cakes are exquisitely decorated and our sole aim is to fulfil your dreams no matter how farfetched they may seem. 
+        Right now we have {% total_posts %} posts for you to read and relax.
+
+        Welcome to my bakery blog! Here you will find a variety of delicious recipes, baking tips and tricks, 
+        and all things related to the wonderful world of baking. Whether you're a seasoned baker or just starting out, 
+        this blog is the perfect place to discover new recipes and techniques to take your baking to the next level. 
+        From classic cakes and cookies to trendy new treats, I'll be sharing my favorite recipes and techniques 
+        to help you create delicious baked goods that are sure to impress. So grab your apron and let's get baking!
+        <br>
+        <br>
+        Here you will find a variety of delicious recipes, baking tips and tricks, 
+        and all things related to the wonderful world of baking. Whether you're a seasoned baker or just starting out, 
+        this blog is the perfect place to discover new recipes and techniques to take your baking to the next level. 
+        From classic cakes and cookies to trendy new treats, I'll be sharing my favorite recipes and techniques 
+        to help you create delicious baked goods that are sure to impress.
+        <br>
+        <br>
+        Baking is an art form that has been enjoyed for centuries, and it's no wonder why. The aroma of freshly baked bread, the sight of a perfectly frosted cake, and the taste of a warm, gooey cookie are all things that bring joy to our lives. In this bakery blog, we'll explore the world of baking and all that it has to offer.
+
+From the basics of baking, such as measuring ingredients and mixing dough, to more advanced techniques like tempering chocolate and creating intricate cake designs, we'll cover it all. We'll also delve into the science behind baking, exploring the chemical reactions that occur when ingredients are combined and how they affect the final product.
+
+But it's not just about the technical aspects of baking. We'll also explore the cultural significance of baked goods, from traditional holiday treats to regional specialties. And of course, we'll share plenty of delicious recipes for you to try at home, from classic favorites to new and innovative creations.
+
+Whether you're a seasoned baker or just starting out, this blog is the perfect place to learn, explore, and indulge in all things baking. So join us on this delicious journey and let's get baking!
+
+        </p>
+
+            </div>
+        <img class="blog-image" style="
+        border-radius: 4px;
+        " src="https://sun9-37.userapi.com/impg/j2sOUZg0ZCvC9_4OnPdVdjyfnB_QMqzPJLE3qQ/nZuZhOVK8rg.jpg?size=960x945&quality=96&sign=1c7b6fc49358a7847869a5b7c235452e&c_uniq_tag=43K1HEoEjbYiEwANtY9xfAlbIC-0kT5uey-i3oGAd7U&type=album" alt="">  
+        
+        
+        </div>
+    </div>
+    <div class="card"  style="background-color: #E3ABAE; margin: 50px;">
+        <div class="card-body">
+        <div class="card-title">
+            <h1>Our posts</h1>
+        </div>
+        <div class="posts">
+            <p class="card-text">
+                        {% show_posts %}
+                    </p>
+        </div>
+        
+        
+        </div>
+    </div>
+        <div style="text-align: center;">
+            {% block main %}
+                <a class="btn" href="{% url "polls:home" %}" role="button" style="background-color: #E3ABAE; color: white; margin: 10px 20px;">Predict product by price</a>
+                <a class="btn" href="{% url "polls:calories" %}" role="button" style="background-color:#F0CAD0; color: white; margin: 10px 20px;">Count product calories</a>
+                <a class="btn" href="{% url "polls:ml" %}" role="button" style="background-color:#C79975; color: white; margin: 10px 20px;">Classify image</a>
+            </div>
+{% endblock %}
+
+<div id="myCarousel" class="carousel slide carouselll" data-ride="carousel" style="width: 600px;
+    
+    margin-left: auto;
+    margin-right: auto;
+    ">
+<ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+</ol>
+
+<div class="carousel-inner" role="listbox">
+    {% show_carousel %}
+</div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Back</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<h3>Latest posts</h3>
+{% show_latest_posts 3 %}
+
+<h3>Polls</h3>
+
+{% if latest_question_list %}
+<ul>
+{% for question in latest_question_list %}
+    <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>No polls</p>
+{% endif %}
+
+    </div>
+{% endblock %}
+

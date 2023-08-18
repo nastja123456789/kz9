@@ -1,0 +1,47 @@
+{% load blog_tags %}
+{% load bootstrap5 %}
+{% for post in posts %}
+<style>
+    .post {
+        width:400px; 
+    }
+    @media screen and (max-width:1000px){
+        .post {
+            width:800px; 
+        }
+}
+    @media screen and (max-width:800px){
+        .post {
+            width:600px; 
+        }
+}
+    @media screen and (max-width:600px){
+        .post {
+            width:400px; 
+        }
+}
+    @media screen and (max-width:400px){
+        .post {
+            width:200px; 
+        }
+}
+
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+        <div class="card" style="margin: 20px;">
+            <div class="card-header" style="background-color: #C79975;">
+                <h4><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                <p class="date" style="font-size: small;"> {{ post.publish }} {{ post.author }}</p>
+            </div>
+            <div class="card-body" style="background-color: #F0CAD0; text-align: justify;">
+            <p class="card-text">
+                {{ post.body|markdown}}
+                <p class="tags">Теги: {{ post.tags.all|join:", " }}</p>
+            </p>
+            </div>
+        </div>
+    {% endfor %}
+{#{% include "pagination.html" with page=posts %}#}

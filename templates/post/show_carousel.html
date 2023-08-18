@@ -1,0 +1,19 @@
+{% load bootstrap5 %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+{% for p in visuals %}
+    {% if forloop.counter == 1 %}
+    <div class="item active">
+    {% else %}
+    <div class="item">
+    {% endif %}
+    <div class="d-flex justify-content-center">
+        <img src="{{ p.img }}" alt="Image" width="460" height="345">
+  <div class="carousel-caption">
+    <h3>{{ p.title }}</h3></div>
+    </div>
+        
+    </div>
+{% endfor %}

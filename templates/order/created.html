@@ -1,0 +1,14 @@
+{% extends "post/base.html" %}
+{% load bootstrap5 %}
+
+{% block title %}Спасибо{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <h1>Thank you!</h1>
+    <p>Yor order was created. Order Id:
+        <strong>{{ order.id }}</strong>.</p>
+{% endblock %}

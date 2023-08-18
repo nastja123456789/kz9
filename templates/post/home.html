@@ -1,0 +1,21 @@
+{% extends "post/base.html" %}
+{% load bootstrap5 %}
+{% load static %}
+{% block title %}
+    Title
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+<form class="card" action="" method="post" style="padding: 10px; margin: 20px auto; align-items: center; background-color: #F0CAD0; width: 300px;">
+            {% csrf_token %}
+					<span class="label-input100">Input price:</span>
+					<input class="input100" type="number" name="sepal_length" placeholder="Your price"><br><br>
+                    <button style="background-color: #C79975;" class="btn">Send</button>
+                    <div >{{ result }}</div>
+        </form>
+{% endblock %}
